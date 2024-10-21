@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz App</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: rgba(13, 42, 72, 1);
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: #f0f0f0;
+        }
+
+        .cont {
+            max-width: 450px;
+            width: 90%;
+            padding: 30px;
+            background-color: rgba(13, 42, 72, 0.9);
+            box-shadow: 0 8px 20px rgba(255, 255, 255, 0.877);
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .hide {
+            display: none;
+        }
+
+        button {
+            background-color: #439000;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 18px;
+            margin-top: 20px;
+            transition: background-color 0.3s, transform 0.1s;
+            font-weight: bold;
+        }
+
+        button:hover {
+            background-color: #28af21ea;
+        }
+
+        button:active {
+            background-color: #11f442;
+            transform: translateY(2px);
+        }
+
+        .q-text {
+            font-size: 22px;
+            margin: 20px 0;
+        }
+
+        .opt {
+            background-color: #f0f0f0;
+            color: #333;
+            padding: 12px;
+            border-radius: 5px;
+            margin: 10px 0;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.1s;
+            font-size: 18px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .opt:hover {
+            background-color: #92ec56;
+            color: white;
+        }
+
+        .opt.correct {
+            background-color: #58c338;
+            color: white;
+            transform: translateY(2px);
+        }
+
+        .opt.incorrect {
+            background-color: #ee7769;
+            color: white;
+        }
+
+        .footer {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+            align-items: center;
+        }
+
+        .res p {
+            font-size: 20px;
+            margin: 10px 0;
+        }
+
+        .play-again,
+        .end-game {
+            margin: 10px;
+            font-size: 16px;
+        }
+
+        @media (max-width: 600px) {
+            .cont {
+                padding: 18px;
+                margin: 4px;
+            }
+
+            button {
+                font-size: 16px;
+                padding: 10px 20px;
+            }
+
+            .q-text {
+                font-size: 20px;
+            }
+
+            .opt {
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="cont start">
+        <h1>Welcome to the Quiz</h1>
+        <button class="start-btn">Start Quiz</button>
+    </div>
+
+    <div class="cont quiz hide">
+        <div>
+            <h2 class="q-text"></h2>
+            <div class="options">
+                <div class="opt"></div>
+                <div class="opt"></div>
+                <div class="opt"></div>
+                <div class="opt"></div>
+            </div>
+        </div>
+        <div class="footer">
+            <span class="q-num"></span>
+            <button class="next-btn hide">Next</button>
+        </div>
+    </div>
+
+    <div class="cont res hide">
+        <h2>Quiz Results</h2>
+        <p>Correct: <span class="correct-count"></span></p>
+        <p>Wrong: <span class="wrong-count"></span></p>
+        <p>Your Score: <span class="score-percentage"></span>%</p>
+        <div>
+            <button class="play-again">Play Again</button>
+            <button class="end-game">End Game</button>
+        </div>
+    </div>
+
+    <script>
+        const qs = [
+            {
+                q: "What is the capital of France?",
+                opts: ["Berlin", "Madrid", "Paris", "Lisbon"],
+                ans: 2
+            },
+            {
+                q: "Which planet is known as the Red Planet?",
+                opts: ["Earth", "Mars", "Jupiter", "Saturn"],
+                ans: 1
+            },
+            {
+                q: "What is the largest ocean on Earth?",
+                opts: ["Indian", "Atlantic", "Arctic", "Pacific"],
+                ans: 3
+            },
+            {
+                q: "Who wrote 'Romeo and Juliet'?",
+                opts: ["Charles Dickens", "William Shakespeare", "Leo Tolstoy", "Mark Twain"],
+                ans: 1
+            },
+            {
+                q: "What is the square root of 64?",
+                opts: ["6", "7", "8", "9"],
+                ans: 2
+            },
+            {
+                q: "Which gas do plants absorb from the atmosphere?",
+                opts: ["Oxygen", "Carbon Dioxide", "Nitrogen", "Helium"],
+                ans: 1
+            },
+            {
+                q: "What is the hardest natural substance on Earth?",
+                opts: ["Gold", "Iron", "Diamond", "Quartz"],
+                ans: 2
+            },
+            {
+                q: "Which element has the chemical symbol 'O'?",
+                opts: ["Osmium", "Oxygen", "Gold", "Oganesson"],
+                ans: 1
+            },
+            {
+                q: "In which year did the Titanic sink?",
+                opts: ["1912", "1905", "1898", "1920"],
+                ans: 0
+            },
+            {
+                q: "What is the capital of Japan?",
+                opts: ["Seoul", "Beijing", "Tokyo", "Bangkok"],
+                ans: 2
+            }
+        ];
+
+        let qIndex = 0;
+        let correct = 0;
+        let wrong = 0;
+
+        const start = document.querySelector('.start');
+        const quiz = document.querySelector('.quiz');
+        const res = document.querySelector('.res');
+        const qText = document.querySelector('.q-text');
+        const optsEls = document.querySelectorAll('.opt');
+        const next = document.querySelector('.next-btn');
+        const qNum = document.querySelector('.q-num');
+        const correctCount = document.querySelector('.correct-count');
+        const wrongCount = document.querySelector('.wrong-count');
+        const scorePercentage = document.querySelector('.score-percentage');
+
+        document.querySelector('.start-btn').addEventListener('click', () => {
+            start.classList.add('hide');
+            quiz.classList.remove('hide');
+            loadQ();
+        });
+
+        function loadQ() {
+            const currentQ = qs[qIndex];
+            qText.textContent = currentQ.q;
+            optsEls.forEach((optEl, index) => {
+                optEl.textContent = currentQ.opts[index];
+                optEl.onclick = () => checkAns(index);
+                optEl.classList.remove('correct', 'incorrect');
+                optEl.classList.remove('clicked'); // Reset clicked state
+            });
+            qNum.textContent = `Question ${qIndex + 1} of ${qs.length}`;
+            next.classList.add('hide');
+        }
+
+        function checkAns(selected) {
+            const correctAns = qs[qIndex].ans;
+
+            
+            optsEls.forEach(opt => {
+                opt.onclick = null; 
+            });
+
+            if (selected === correctAns) {
+                correct++;
+                optsEls[selected].classList.add('correct');
+            } else {
+                wrong++;
+                optsEls[selected].classList.add('incorrect');
+                optsEls[correctAns].classList.add('correct');
+            }
+            next.classList.remove('hide');
+        }
+
+        next.addEventListener('click', () => {
+            qIndex++;
+            if (qIndex < qs.length) {
+                loadQ();
+            } else {
+                showRes();
+            }
+        });
+
+        function showRes() {
+            quiz.classList.add('hide');
+            res.classList.remove('hide');
+            correctCount.textContent = correct;
+            wrongCount.textContent = wrong;
+            scorePercentage.textContent = ((correct / qs.length) * 100).toFixed(2);
+        }
+
+        document.querySelector('.play-again').addEventListener('click', () => {
+            reset();
+        });
+
+        document.querySelector('.end-game').addEventListener('click', () => {
+            alert('Thank you for playing!');
+            location.reload();
+        });
+
+        function reset() {
+            qIndex = 0;
+            correct = 0;
+            wrong = 0;
+            res.classList.add('hide');
+            quiz.classList.remove('hide');
+            loadQ();
+        }
+    </script>
+
+</body>
+
+</html>
