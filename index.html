@@ -141,6 +141,7 @@
          max-height: 30px;
          padding: 30px;
          box-shadow: 1px 3px wheat;
+          margin-bottom: 15px ;
         }
     </style>
 </head>
@@ -184,57 +185,33 @@
 
     <script>
         const qs = [
-            {
-                q: "What is the capital of France?",
-                opts: ["Berlin", "Madrid", "Paris", "Lisbon"],
-                ans: 2
-            },
-            {
-                q: "Which planet is known as the Red Planet?",
-                opts: ["Earth", "Mars", "Jupiter", "Saturn"],
-                ans: 1
-            },
-            {
-                q: "What is the largest ocean on Earth?",
-                opts: ["Indian", "Atlantic", "Arctic", "Pacific"],
-                ans: 3
-            },
-            {
-                q: "Who wrote 'Romeo and Juliet'?",
-                opts: ["Charles Dickens", "William Shakespeare", "Leo Tolstoy", "Mark Twain"],
-                ans: 1
-            },
-            {
-                q: "What is the square root of 64?",
-                opts: ["6", "7", "8", "9"],
-                ans: 2
-            },
-            {
-                q: "Which gas do plants absorb from the atmosphere?",
-                opts: ["Oxygen", "Carbon Dioxide", "Nitrogen", "Helium"],
-                ans: 1
-            },
-            {
-                q: "What is the hardest natural substance on Earth?",
-                opts: ["Gold", "Iron", "Diamond", "Quartz"],
-                ans: 2
-            },
-            {
-                q: "Which element has the chemical symbol 'O'?",
-                opts: ["Osmium", "Oxygen", "Gold", "Oganesson"],
-                ans: 1
-            },
-            {
-                q: "In which year did the Titanic sink?",
-                opts: ["1912", "1905", "1898", "1920"],
-                ans: 0
-            },
-            {
-                q: "What is the capital of Japan?",
-                opts: ["Seoul", "Beijing", "Tokyo", "Bangkok"],
-                ans: 2
-            }
-        ];
+    {
+        q: "What is the output of 2 + 2 in JavaScript?",
+        opts: ["22", "4", "undefined", "NaN"],
+        ans: 1
+    },
+    {
+        q: "Which of the following is a JavaScript data type?",
+        opts: ["Number", "String", "Boolean", "All of the above"],
+        ans: 3
+    },
+    {
+        q: "What keyword is used to declare a variable in JavaScript?",
+        opts: ["var", "let", "const", "All of the above"],
+        ans: 3
+    },
+    {
+        q: "Which method is used to parse a JSON string in JavaScript?",
+        opts: ["JSON.stringify()", "JSON.parse()", "JSON.convert()", "JSON.decode()"],
+        ans: 1
+    },
+    {
+        q: "What will be the value of '5' + 3 in JavaScript?",
+        opts: ["8", "53", "Error", "NaN"],
+        ans: 1
+    }
+];
+
 
         let qIndex = 0;
         let correct = 0;
