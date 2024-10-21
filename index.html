@@ -240,16 +240,27 @@
         let correct = 0;
         let wrong = 0;
 
+
+
         const start = document.querySelector('.start');
         const quiz = document.querySelector('.quiz');
         const res = document.querySelector('.res');
+
         const qText = document.querySelector('.q-text');
         const optsEls = document.querySelectorAll('.opt');
         const next = document.querySelector('.next-btn');
         const qNum = document.querySelector('.q-num');
         const correctCount = document.querySelector('.correct-count');
+
         const wrongCount = document.querySelector('.wrong-count');
         const scorePercentage = document.querySelector('.score-percentage');
+
+
+
+
+
+
+
 
         document.querySelector('.start-btn').addEventListener('click', () => {
             start.classList.add('hide');
@@ -264,7 +275,7 @@
                 optEl.textContent = currentQ.opts[index];
                 optEl.onclick = () => checkAns(index);
                 optEl.classList.remove('correct', 'incorrect');
-                optEl.classList.remove('clicked'); // Reset clicked state
+                optEl.classList.remove('clicked'); 
             });
             qNum.textContent = `Question ${qIndex + 1} of ${qs.length}`;
             next.classList.add('hide');
